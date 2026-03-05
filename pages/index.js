@@ -112,25 +112,40 @@ export default function Home() {
       setError(null);
       
       const openMarkets = Object.keys(MARKET_HOURS).filter(isMarketOpen);
+      
+      // 调试信息
+      console.log('Open markets:', openMarkets);
+      
       const closedMarkets = Object.keys(MARKET_HOURS).filter(m => !isMarketOpen(m));
       
       // 获取开盘市场的数据
       const stocksToFetch = STOCKS.filter(s => openMarkets.includes(s.market));
+      console.log('Stocks to fetch:', stocksToFetch.map(s => s.code));
+      
       const results = [];
       for (const stock of stocksToFetch) {
         let data = null;
-        if (stock.src === 'itick') {
-          data = await fetchItickStock(stock.region, stock.code);
-        } else {
-          data = await fetchTwelveStock(stock.code);
+        try {
+          if (stock.src === 'itick') {
+            data = await fetchItickStock(stock.region, stock.code);
+          } else {
+            data = await fetchTwelveStock(stock.code);
+          }
+        } catch (e) {
+          console.error(`Failed to fetch ${stock.code}:`, e);
         }
+        
         if (data) {
           results.push({ code: stock.code, name: stock.name, market: stock.market, isOpen: true, newsUrl: stock.newsUrl, ...data });
           // 更新缓存
           setClosedStocks(prev => ({ ...prev, [stock.code]: { ...data, name: stock.name, market: stock.market, newsUrl: stock.newsUrl } }));
+        } else {
+          console.log(`No data for ${stock.code}`);
         }
         await new Promise(r => setTimeout(r, 100));
       }
+      
+      console.log('Results count:', results.length);
       
       // 添加休市股票（从缓存）
       const closedResults = STOCKS.filter(s => closedMarkets.includes(s.market) && closedStocks[s.code])
