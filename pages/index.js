@@ -34,10 +34,10 @@ const STOCKS = [
 ];
 
 const MARKET_HOURS = {
-  'A股': { open: '09:30', close: '15:00' },
-  '港股': { open: '09:30', close: '16:00' },
+  'A股': { open: '09:30', close: '15:00', lunchStart: '11:30', lunchEnd: '13:00' },
+  '港股': { open: '09:30', close: '16:00', lunchStart: '12:00', lunchEnd: '13:00' },
   '台湾': { open: '09:00', close: '13:30' },
-  '日本': { open: '08:00', close: '14:00' },
+  '日本': { open: '08:00', close: '14:00', lunchStart: '11:30', lunchEnd: '12:30' },
   '韩国': { open: '08:00', close: '14:00' },
   '欧洲': { open: '15:00', close: '23:30' },
   '美股': { open: '21:30', close: '04:00', nextDay: true },
@@ -58,6 +58,7 @@ function isMarketOpen(market) {
     // 跨天市场（如美股 21:30-04:00）
     return currentTime >= open || currentTime <= close;
   }
+  // 只要在交易时间段内（包括午休）都算开盘
   return currentTime >= open && currentTime <= close;
 }
 
