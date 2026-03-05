@@ -136,7 +136,11 @@ export default function Home() {
       const closedResults = STOCKS.filter(s => closedMarkets.includes(s.market) && closedStocks[s.code])
         .map(s => ({ code: s.code, isOpen: false, ...closedStocks[s.code] }));
       
-      setStocks([...results, ...closedResults]);
+      // 合并并按涨跌幅排序（从大到小）
+      const allStocks = [...results, ...closedResults];
+      allStocks.sort((a, b) => Math.abs(b.changePct) - Math.abs(a.changePct));
+      
+      setStocks(allStocks);
       setLastUpdate(new Date());
       setCountdown(60);
     } catch (err) {
