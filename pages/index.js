@@ -2,14 +2,13 @@
 import { useState, useEffect } from 'react';
 
 const ITICK_API_KEY = 'f3dd1e8b5bda476ab5e945a672d84768a5f702f82b40418bbf3346d52bc1527a';
-const TWELVE_API_KEY = '20fbb5559ad7476fa1ee8e64117a9304';
 
 const STOCKS = [
-  // 美股 - Twelve Data (减少数量避免限流)
-  { code: 'GOOG', name: 'ALPHABET', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/GOOG/news' },
-  { code: 'NVDA', name: 'NVIDIA', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/NVDA/news' },
-  { code: 'TSLA', name: 'TESLA', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/TSLA/news' },
-  { code: 'BABA', name: '阿里巴巴', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/BABA/news' },
+  // 美股 - iTick (避免 Twelve Data 限流)
+  { code: 'GOOG', name: 'ALPHABET', market: '美股', region: 'us', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/GOOG/news' },
+  { code: 'NVDA', name: 'NVIDIA', market: '美股', region: 'us', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/NVDA/news' },
+  { code: 'TSLA', name: 'TESLA', market: '美股', region: 'us', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/TSLA/news' },
+  { code: 'BABA', name: '阿里巴巴', market: '美股', region: 'us', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/BABA/news' },
   
   // 港股 - iTick
   { code: '700', name: '腾讯', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk00700/nc.shtml' },
@@ -88,24 +87,6 @@ async function fetchItickStock(region, code) {
   return null;
 }
 
-async function fetchTwelveStock(code) {
-  try {
-    const response = await fetch(
-      `https://api.twelvedata.com/quote?symbol=${code}&apikey=${TWELVE_API_KEY}`
-    );
-    const data = await response.json();
-    if (data.close) {
-      const price = parseFloat(data.close);
-      const prevClose = parseFloat(data.previous_close);
-      return {
-        price, changePct: parseFloat(((price - prevClose) / prevClose * 100).toFixed(2)),
-        prevClose, high: parseFloat(data.high), low: parseFloat(data.low), volume: parseInt(data.volume)
-      };
-    }
-  } catch (e) { console.error(`Twelve error for ${code}:`, e); }
-  return null;
-}
-
 export default function Home() {
   const [stocks, setStocks] = useState([]);
   const [closedStocks, setClosedStocks] = useState({}); // 休市股票缓存
@@ -134,11 +115,7 @@ export default function Home() {
       for (const stock of stocksToFetch) {
         let data = null;
         try {
-          if (stock.src === 'itick') {
-            data = await fetchItickStock(stock.region, stock.code);
-          } else {
-            data = await fetchTwelveStock(stock.code);
-          }
+          data = await fetchItickStock(stock.region, stock.code);
         } catch (e) {
           console.error(`Failed to fetch ${stock.code}:`, e);
         }
