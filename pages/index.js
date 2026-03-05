@@ -5,32 +5,32 @@ const ITICK_API_KEY = 'f3dd1e8b5bda476ab5e945a672d84768a5f702f82b40418bbf3346d52
 const TWELVE_API_KEY = '20fbb5559ad7476fa1ee8e64117a9304';
 
 const STOCKS = [
-  { code: 'GOOG', name: 'ALPHABET', market: '美股', src: 'twelve' },
-  { code: 'NVDA', name: 'NVIDIA', market: '美股', src: 'twelve' },
-  { code: 'TSM', name: 'TSMC-ADR', market: '美股', src: 'twelve' },
-  { code: 'META', name: 'META', market: '美股', src: 'twelve' },
-  { code: 'AMZN', name: 'AMAZON', market: '美股', src: 'twelve' },
-  { code: 'TSLA', name: 'TESLA', market: '美股', src: 'twelve' },
-  { code: 'NIO', name: '蔚来', market: '美股', src: 'twelve' },
-  { code: 'BABA', name: '阿里巴巴', market: '美股', src: 'twelve' },
-  { code: '700', name: '腾讯', market: '港股', region: 'hk', src: 'itick' },
-  { code: '3690', name: '美团', market: '港股', region: 'hk', src: 'itick' },
-  { code: '9868', name: '小鹏', market: '港股', region: 'hk', src: 'itick' },
-  { code: '2015', name: '理想', market: '港股', region: 'hk', src: 'itick' },
-  { code: '1211', name: '比亚迪', market: '港股', region: 'hk', src: 'itick' },
-  { code: '100', name: 'MINIMAX', market: '港股', region: 'hk', src: 'itick' },
-  { code: 'RR.', name: 'Rolls-Royce', market: '欧洲', region: 'gb', src: 'itick' },
-  { code: 'AIR', name: 'Airbus', market: '欧洲', region: 'fr', src: 'itick' },
-  { code: 'SAF', name: 'Safran', market: '欧洲', region: 'fr', src: 'itick' },
-  { code: 'ENR', name: 'Siemens Energy', market: '欧洲', region: 'de', src: 'itick' },
-  { code: '688256', name: '寒武纪', market: 'A股', region: 'sh', src: 'itick' },
-  { code: '300750', name: '宁德时代', market: 'A股', region: 'sz', src: 'itick' },
-  { code: '7203', name: '丰田', market: '日本', region: 'jp', src: 'itick' },
-  { code: '6758', name: '索尼', market: '日本', region: 'jp', src: 'itick' },
-  { code: '2330', name: '台积电', market: '台湾', region: 'tw', src: 'itick' },
-  { code: '2454', name: '联发科', market: '台湾', region: 'tw', src: 'itick' },
-  { code: '660', name: 'SK海力士', market: '韩国', region: 'kr', src: 'itick' },
-  { code: '5930', name: '三星电子', market: '韩国', region: 'kr', src: 'itick' },
+  { code: 'GOOG', name: 'ALPHABET', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/GOOG/news' },
+  { code: 'NVDA', name: 'NVIDIA', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/NVDA/news' },
+  { code: 'TSM', name: 'TSMC-ADR', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/TSM/news' },
+  { code: 'META', name: 'META', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/META/news' },
+  { code: 'AMZN', name: 'AMAZON', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/AMZN/news' },
+  { code: 'TSLA', name: 'TESLA', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/TSLA/news' },
+  { code: 'NIO', name: '蔚来', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/NIO/news' },
+  { code: 'BABA', name: '阿里巴巴', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/BABA/news' },
+  { code: '700', name: '腾讯', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk00700/nc.shtml' },
+  { code: '3690', name: '美团', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk03690/nc.shtml' },
+  { code: '9868', name: '小鹏', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk09868/nc.shtml' },
+  { code: '2015', name: '理想', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk02015/nc.shtml' },
+  { code: '1211', name: '比亚迪', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk01211/nc.shtml' },
+  { code: '100', name: 'MINIMAX', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk00100/nc.shtml' },
+  { code: 'RR.', name: 'Rolls-Royce', market: '欧洲', region: 'gb', src: 'itick', newsUrl: 'https://www.bloomberg.com/quote/RR/:LN' },
+  { code: 'AIR', name: 'Airbus', market: '欧洲', region: 'fr', src: 'itick', newsUrl: 'https://www.bloomberg.com/quote/AIR:FP' },
+  { code: 'SAF', name: 'Safran', market: '欧洲', region: 'fr', src: 'itick', newsUrl: 'https://www.bloomberg.com/quote/SAF:FP' },
+  { code: 'ENR', name: 'Siemens Energy', market: '欧洲', region: 'de', src: 'itick', newsUrl: 'https://www.bloomberg.com/quote/ENR:GR' },
+  { code: '688256', name: '寒武纪', market: 'A股', region: 'sh', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/sh688256/nc.shtml' },
+  { code: '300750', name: '宁德时代', market: 'A股', region: 'sz', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/sz300750/nc.shtml' },
+  { code: '7203', name: '丰田', market: '日本', region: 'jp', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/TM/news' },
+  { code: '6758', name: '索尼', market: '日本', region: 'jp', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/SONY/news' },
+  { code: '2330', name: '台积电', market: '台湾', region: 'tw', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/TSM/news' },
+  { code: '2454', name: '联发科', market: '台湾', region: 'tw', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/MTKF/news' },
+  { code: '660', name: 'SK海力士', market: '韩国', region: 'kr', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/000660.KS/news' },
+  { code: '5930', name: '三星电子', market: '韩国', region: 'kr', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/005930.KS/news' },
 ];
 
 const MARKET_HOURS = {
@@ -121,9 +121,9 @@ export default function Home() {
           data = await fetchTwelveStock(stock.code);
         }
         if (data) {
-          results.push({ code: stock.code, name: stock.name, market: stock.market, isOpen: true, ...data });
+          results.push({ code: stock.code, name: stock.name, market: stock.market, isOpen: true, newsUrl: stock.newsUrl, ...data });
           // 更新缓存
-          setClosedStocks(prev => ({ ...prev, [stock.code]: { ...data, name: stock.name, market: stock.market } }));
+          setClosedStocks(prev => ({ ...prev, [stock.code]: { ...data, name: stock.name, market: stock.market, newsUrl: stock.newsUrl } }));
         }
         await new Promise(r => setTimeout(r, 100));
       }
@@ -149,7 +149,8 @@ export default function Home() {
     return () => { clearInterval(interval); clearInterval(countdownInterval); };
   }, []);
 
-  const alerts = stocks.filter(s => Math.abs(s.changePct) >= 3);
+  const bigAlerts = stocks.filter(s => Math.abs(s.changePct) >= 3);
+  const smallAlerts = stocks.filter(s => Math.abs(s.changePct) > 0 && Math.abs(s.changePct) < 3);
 
   return (
     <div style={{ minHeight: '100vh', background: '#0a0e1a', color: '#fff', fontFamily: 'system-ui, sans-serif' }}>
@@ -177,13 +178,38 @@ export default function Home() {
           })}
         </div>
 
-        {/* 异动提醒 */}
-        {alerts.length > 0 && (
+        {/* 大幅异动 (≥3%) */}
+        {bigAlerts.length > 0 && (
           <div style={{ background: 'linear-gradient(135deg, #1a1f2e 0%, #151922 100%)', border: '1px solid #2a3142', borderRadius: '12px', padding: '20px', marginBottom: '20px' }}>
-            <div style={{ fontSize: '16px', fontWeight: 600, marginBottom: '15px' }}>⚠️ 异动提醒 <span style={{ background: '#ef4444', color: '#fff', fontSize: '12px', padding: '2px 8px', borderRadius: '10px' }}>{alerts.length}</span></div>
-            {alerts.map(s => (
-              <div key={s.code} style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 15px', background: '#252b3d', borderRadius: '8px', marginBottom: '8px', borderLeft: `3px solid ${s.changePct >= 0 ? '#22c55e' : '#ef4444'}` }}>
-                <div><strong>{s.name}</strong> <span style={{ color: '#8b92a8' }}>{s.market}</span></div>
+            <div style={{ fontSize: '16px', fontWeight: 600, marginBottom: '15px' }}>
+              🔴 大幅异动 (≥3%) 
+              <span style={{ background: '#ef4444', color: '#fff', fontSize: '12px', padding: '2px 8px', borderRadius: '10px' }}>{bigAlerts.length}</span>
+            </div>
+            {bigAlerts.map(s => (
+              <div key={s.code} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 15px', background: '#252b3d', borderRadius: '8px', marginBottom: '8px', borderLeft: `3px solid ${s.changePct >= 0 ? '#22c55e' : '#ef4444'}` }}>
+                <div>
+                  <div><strong>{s.name}</strong> <span style={{ color: '#8b92a8' }}>{s.market}</span></div>
+                  <a href={s.newsUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#00d4ff', textDecoration: 'none' }}>📰 相关新闻 →</a>
+                </div>
+                <div style={{ color: s.changePct >= 0 ? '#22c55e' : '#ef4444', fontWeight: 600 }}>{s.changePct >= 0 ? '+' : ''}{s.changePct}%</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 小幅波动 (<3%) */}
+        {smallAlerts.length > 0 && (
+          <div style={{ background: 'linear-gradient(135deg, #1a1f2e 0%, #151922 100%)', border: '1px solid #2a3142', borderRadius: '12px', padding: '20px', marginBottom: '20px' }}>
+            <div style={{ fontSize: '16px', fontWeight: 600, marginBottom: '15px' }}>
+              🟡 小幅波动 (<3%) 
+              <span style={{ background: '#5a6275', color: '#fff', fontSize: '12px', padding: '2px 8px', borderRadius: '10px' }}>{smallAlerts.length}</span>
+            </div>
+            {smallAlerts.map(s => (
+              <div key={s.code} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 15px', background: '#252b3d', borderRadius: '8px', marginBottom: '8px', borderLeft: `3px solid ${s.changePct >= 0 ? '#22c55e' : '#ef4444'}` }}>
+                <div>
+                  <div><strong>{s.name}</strong> <span style={{ color: '#8b92a8' }}>{s.market}</span></div>
+                  <a href={s.newsUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#00d4ff', textDecoration: 'none' }}>📰 相关新闻 →</a>
+                </div>
                 <div style={{ color: s.changePct >= 0 ? '#22c55e' : '#ef4444', fontWeight: 600 }}>{s.changePct >= 0 ? '+' : ''}{s.changePct}%</div>
               </div>
             ))}
