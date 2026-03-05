@@ -5,30 +5,38 @@ const ITICK_API_KEY = 'f3dd1e8b5bda476ab5e945a672d84768a5f702f82b40418bbf3346d52
 const TWELVE_API_KEY = '20fbb5559ad7476fa1ee8e64117a9304';
 
 const STOCKS = [
+  // 美股 - Twelve Data (减少数量避免限流)
   { code: 'GOOG', name: 'ALPHABET', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/GOOG/news' },
   { code: 'NVDA', name: 'NVIDIA', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/NVDA/news' },
-  { code: 'TSM', name: 'TSMC-ADR', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/TSM/news' },
-  { code: 'META', name: 'META', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/META/news' },
-  { code: 'AMZN', name: 'AMAZON', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/AMZN/news' },
   { code: 'TSLA', name: 'TESLA', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/TSLA/news' },
-  { code: 'NIO', name: '蔚来', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/NIO/news' },
   { code: 'BABA', name: '阿里巴巴', market: '美股', src: 'twelve', newsUrl: 'https://finance.yahoo.com/quote/BABA/news' },
+  
+  // 港股 - iTick
   { code: '700', name: '腾讯', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk00700/nc.shtml' },
   { code: '3690', name: '美团', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk03690/nc.shtml' },
   { code: '9868', name: '小鹏', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk09868/nc.shtml' },
   { code: '2015', name: '理想', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk02015/nc.shtml' },
   { code: '1211', name: '比亚迪', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk01211/nc.shtml' },
-  { code: '100', name: 'MINIMAX', market: '港股', region: 'hk', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/hk00100/nc.shtml' },
+  
+  // 欧洲 - iTick
   { code: 'RR.', name: 'Rolls-Royce', market: '欧洲', region: 'gb', src: 'itick', newsUrl: 'https://www.bloomberg.com/quote/RR/:LN' },
   { code: 'AIR', name: 'Airbus', market: '欧洲', region: 'fr', src: 'itick', newsUrl: 'https://www.bloomberg.com/quote/AIR:FP' },
   { code: 'SAF', name: 'Safran', market: '欧洲', region: 'fr', src: 'itick', newsUrl: 'https://www.bloomberg.com/quote/SAF:FP' },
   { code: 'ENR', name: 'Siemens Energy', market: '欧洲', region: 'de', src: 'itick', newsUrl: 'https://www.bloomberg.com/quote/ENR:GR' },
+  
+  // A股 - iTick
   { code: '688256', name: '寒武纪', market: 'A股', region: 'sh', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/sh688256/nc.shtml' },
   { code: '300750', name: '宁德时代', market: 'A股', region: 'sz', src: 'itick', newsUrl: 'https://finance.sina.com.cn/realstock/company/sz300750/nc.shtml' },
+  
+  // 日本 - iTick
   { code: '7203', name: '丰田', market: '日本', region: 'jp', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/TM/news' },
   { code: '6758', name: '索尼', market: '日本', region: 'jp', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/SONY/news' },
+  
+  // 台湾 - iTick
   { code: '2330', name: '台积电', market: '台湾', region: 'tw', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/TSM/news' },
   { code: '2454', name: '联发科', market: '台湾', region: 'tw', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/MTKF/news' },
+  
+  // 韩国 - iTick
   { code: '660', name: 'SK海力士', market: '韩国', region: 'kr', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/000660.KS/news' },
   { code: '5930', name: '三星电子', market: '韩国', region: 'kr', src: 'itick', newsUrl: 'https://finance.yahoo.com/quote/005930.KS/news' },
 ];
@@ -142,7 +150,7 @@ export default function Home() {
         } else {
           console.log(`No data for ${stock.code}`);
         }
-        await new Promise(r => setTimeout(r, 100));
+        await new Promise(r => setTimeout(r, 1000)); // 1秒间隔避免限流
       }
       
       console.log('Results count:', results.length);
