@@ -45,15 +45,17 @@ const MARKET_HOURS = {
 
 function isMarketOpen(market) {
   const now = new Date();
-  const weekday = now.getDay();
+  const weekday = now.getDay(); // 0=周日, 1=周一, ..., 6=周六
   const currentTime = now.toTimeString().slice(0, 5);
   const hours = MARKET_HOURS[market];
   
-  if (weekday > 4) return false;
+  // 周六(6)和周日(0)休市
+  if (weekday === 0 || weekday === 6) return false;
   if (!hours) return true;
   
   const { open, close, nextDay } = hours;
   if (nextDay) {
+    // 跨天市场（如美股 21:30-04:00）
     return currentTime >= open || currentTime <= close;
   }
   return currentTime >= open && currentTime <= close;
