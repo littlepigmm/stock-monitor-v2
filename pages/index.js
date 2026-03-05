@@ -44,9 +44,11 @@ const MARKET_HOURS = {
 };
 
 function isMarketOpen(market) {
+  // 使用北京时间
   const now = new Date();
-  const weekday = now.getDay(); // 0=周日, 1=周一, ..., 6=周六
-  const currentTime = now.toTimeString().slice(0, 5);
+  const beijingTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Shanghai"}));
+  const weekday = beijingTime.getDay();
+  const currentTime = beijingTime.toTimeString().slice(0, 5);
   const hours = MARKET_HOURS[market];
   
   // 周六(6)和周日(0)休市
