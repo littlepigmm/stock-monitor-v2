@@ -94,6 +94,7 @@ async function fetchTwelveStock(code) {
 
 export default function Home() {
   const [stocks, setStocks] = useState([]);
+  const [closedStocks, setClosedStocks] = useState({}); // 休市股票缓存
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState(null);
   const [countdown, setCountdown] = useState(60);
@@ -105,8 +106,10 @@ export default function Home() {
       setError(null);
       
       const openMarkets = Object.keys(MARKET_HOURS).filter(isMarketOpen);
-      const stocksToFetch = STOCKS.filter(s => openMarkets.includes(s.market));
+      const closedMarkets = Object.keys(MARKET_HOURS).filter(m => !isMarketOpen(m));
       
+      // 获取开盘市场的数据
+      const stocksToFetch = STOCKS.filter(s => openMarkets.includes(s.market));
       const results = [];
       for (const stock of stocksToFetch) {
         let data = null;
@@ -115,11 +118,19 @@ export default function Home() {
         } else {
           data = await fetchTwelveStock(stock.code);
         }
-        if (data) results.push({ code: stock.code, name: stock.name, market: stock.market, ...data });
+        if (data) {
+          results.push({ code: stock.code, name: stock.name, market: stock.market, isOpen: true, ...data });
+          // 更新缓存
+          setClosedStocks(prev => ({ ...prev, [stock.code]: { ...data, name: stock.name, market: stock.market } }));
+        }
         await new Promise(r => setTimeout(r, 100));
       }
       
-      setStocks(results);
+      // 添加休市股票（从缓存）
+      const closedResults = STOCKS.filter(s => closedMarkets.includes(s.market) && closedStocks[s.code])
+        .map(s => ({ code: s.code, isOpen: false, ...closedStocks[s.code] }));
+      
+      setStocks([...results, ...closedResults]);
       setLastUpdate(new Date());
       setCountdown(60);
     } catch (err) {
@@ -185,10 +196,23 @@ export default function Home() {
           {stocks.map(s => {
             const up = s.changePct >= 0;
             return (
-              <div key={s.code} style={{ background: 'linear-gradient(135deg, #1a1f2e 0%, #151922 100%)', border: '1px solid #2a3142', borderRadius: '12px', padding: '20px', borderLeft: `3px solid ${up ? '#22c55e' : '#ef4444'}` }}>
+              <div key={s.code} style={{ 
+                background: 'linear-gradient(135deg, #1a1f2e 0%, #151922 100%)', 
+                border: '1px solid #2a3142', 
+                borderRadius: '12px', 
+                padding: '20px', 
+                borderLeft: `3px solid ${up ? '#22c55e' : '#ef4444'}`,
+                opacity: s.isOpen ? 1 : 0.7
+              }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                  <div><h3 style={{ fontSize: '16px', fontWeight: 600 }}>{s.name}</h3><div style={{ fontSize: '12px', color: '#8b92a8' }}>{s.code}</div></div>
-                  <span style={{ fontSize: '11px', padding: '4px 8px', background: '#252b3d', borderRadius: '4px', color: '#8b92a8' }}>{s.market}</span>
+                  <div>
+                    <h3 style={{ fontSize: '16px', fontWeight: 600 }}>{s.name}</h3>
+                    <div style={{ fontSize: '12px', color: '#8b92a8' }}>{s.code}</div>
+                  </div>
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    {!s.isOpen && <span style={{ fontSize: '10px', padding: '2px 6px', background: '#5a6275', borderRadius: '4px', color: '#fff' }}>休市</span>}
+                    <span style={{ fontSize: '11px', padding: '4px 8px', background: '#252b3d', borderRadius: '4px', color: '#8b92a8' }}>{s.market}</span>
+                  </div>
                 </div>
                 <div style={{ fontSize: '32px', fontWeight: 700, marginBottom: '8px' }}>{s.price}</div>
                 <div style={{ color: up ? '#22c55e' : '#ef4444', fontSize: '14px' }}>{up ? '▲' : '▼'} {Math.abs(s.changePct)}%</div>
