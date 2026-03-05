@@ -44,9 +44,10 @@ const MARKET_HOURS = {
 };
 
 function isMarketOpen(market) {
-  // 使用北京时间
+  // 获取北京时间
   const now = new Date();
-  const beijingTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Shanghai"}));
+  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const beijingTime = new Date(utc + (3600000 * 8)); // UTC+8
   const weekday = beijingTime.getDay();
   const currentTime = beijingTime.toTimeString().slice(0, 5);
   const hours = MARKET_HOURS[market];
